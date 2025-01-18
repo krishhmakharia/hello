@@ -1,0 +1,23 @@
+<?php 
+    include("db.php");
+    if(isset($_COOKIE["login"])){
+        $email=$_COOKIE["login"];
+        $rs=mysqli_query($conn,"Select * from details where email='$email'");
+        if($r=mysqli_fetch_array($rs)){
+            $code=$r["code"];
+            $target="profile/$code.jpg";
+            if(move_uploaded_file($_FILES["pic"]["tmp_name"],$target)){
+                header("location:edit.php?success_img=1");
+            }
+            else{
+                header("location:edit.php?img_error=1");
+            }
+        }
+        else{
+            header("location:logout.php");
+        }
+    }
+    else{
+        header("location:logout.php");
+    }
+?>
